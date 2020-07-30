@@ -102,3 +102,122 @@ Now that we have some background on how `closures` work, let's examine how `clos
 ### Closures and Callbacks
 
 
+- Create a function with setter and getter methods bank account function
+- function factories
+- setInterval to increase/decrease stocks
+
+# Exercises
+Let's implement the concept of closure into creating functions that emulate real-world situations.
+
+## Bank Account Emulator 🏦
+We're tired of using Bank apps to keep track of our 💵💵. We want to create a function, `bankAccount()` that does that job for us! Inside of the `bankAccount()` function, we want the following:
+- knows the amount of money, `balance`, we have,
+- has an inner function, `changeBy()`, that changes that value of that `balance`,
+- returns an object with keys, `deposit`, `withdraw`, and `checkBalance`. The keys `deposit` and `withdraw` will both have a value pointing to an `anonymous function` that takes in a parameter, which will be an `integer`, and that function calls `changeBy()` passing in the parameter it received indicating how much to change the `balance` by. The `checkBalance` will also have a value pointing to an `anonymous function` that will return our `balance`.
+
+Sample (I should be able to make the following calls to your function)
+```js
+console.log(bankAccount.checkBalance()) // 4000
+console.log(bankAccount.deposit(400)) 
+console.log(bankAccount.withdraw(3000))
+console.log(bankAccount.checBalance()) // 1400 
+```
+
+
+## Profile Creator 📱
+Tired of using social media apps, but still would like a way of knowing people's basic info? Let's create the next best thing! Create a function, `createProfile()` that will take in three parameters: `name`, in `string`, `bio`, also in `string`, and `age`, in `integer`. When we invoke `createProfile()`, we want the following:
+- a variable, `information` that has the key value pairs of the parameters passed in,
+- the function returns an object with keys, `changeName`, `changeBio`, `changeAge`, and `viewProfile`, with all of their values pointing to an `anonymous function`. 
+- With the `anonymous functions` of `changeName`, `changeBio`, and `changeAge`, they are each taking a parameter when invoked and we are changing the respective property values on the `information` object.
+- The `anonymous function` of `viewProfile` will not need a parameter but it will return the `information` object when invoked.
+
+Sample (I should be able to make the following calls to your function)
+```js
+const myProfile = createProfile("John", "My name is John", 42)
+console.log(myProfile.changeName("Jonathan"))
+console.log(myProfile.changeBio("I'm now Jonathan"))
+console.log(myProfile.changeAge(14))
+console.log(myProfile.viewProfile()) // {name: "Jonathan", bio: "I'm now Jonathan", age: 14}
+```
+
+```js
+function createProfile(name, bio, age){
+    const information = {
+        name,
+        bio,
+        age
+    }
+
+    return {
+        changeName: function(newName){
+            information.name = newName
+        },
+        changeBio: function(newBio){
+            information.bio = newBio
+        },
+        changeAge:function(newAge){
+            information.age = newAge
+        },
+        viewProfile:function(){
+            return information
+        }
+
+    }
+}
+
+const myProfile = createProfile("John", "My name is John", 42)
+myProfile.changeName("Jonathan")
+myProfile.changeBio("I'm now Jonathan")
+myProfile.changeAge(14)
+myProfile.viewProfile()
+```
+
+
+
+## Reminder Function
+Tend to forget things frequently? Don't fret! We will design a function, `remindMe()` that will remind us to do certain things! As part of this function, we will implement `setTimeout()` which will take two arguments, the first being the `callback` function and the second, the time for it to execute the `callback` function. Ex. `setTimeout(function(){console.log('hey')}, 3000)`
+
+Quick explanation of what a `callback` is: a function you give to another function, to be run when the other function is finished. The function you call, invoke, 'calls back' by calling the function you gave it when it finishes.
+
+When `remindMe()` is invoked, a two parameters will be expected: `remindMe(reminder, time)`. The first argument will be `reminder`, a `string` message of what the reminder is and the second will be the time, an `integer` of when to remind us. Within the function itself,
+- has an inner function, `reminderFunction()` that returns `Reminder: Reminder that you passed in a parameter`
+- has a `setTimeout()` that takes in the `anonymous callback function` and the `time` parameters.
+- Inside of the `anonymous callback function`, it will invoke `reminderFunction`. NOTE: there's a way to make this shorter. It's okay if you're not aware. You can stick to this approach.
+
+```js
+
+function remindMe(reminder, time){
+    function reminderFunction(){
+        return "Reminder: " + reminder
+    }
+    setTimeout(function(){
+        reminderFunction()
+    }, time)
+}
+
+remindMe("Food", 4000)
+```
+
+Sample
+```js
+console.log(remindMe("Eat", 3000)) // After 3 seconds, logs out: Reminder: Eat.
+```
+
+## ToDo List Tracker 🔖
+Have a lot of things to do and too lazy to keep track of them all? No worries! We're going to make a function `todoTracker()` that will keep track of all of our todos.
+
+```js
+const todos = [];
+
+function todoTracker(){
+    return {
+        addTodo: function(){
+            todos.push()
+        },
+        removeTodo: function(){
+            todos.shift()
+        }
+
+    }
+}
+```
