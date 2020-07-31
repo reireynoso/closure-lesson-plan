@@ -2,7 +2,7 @@
 
 ## Introduction 👋🏼
 
-Greetings curious learner! Welcome to a notorious topic in Javascript, understanding `closures`. Closures is a Javascript topic that's absolutely vital to understand when advancing with Javascript concepts. However, it can be notoriously difficult to understand, but you're ready 💪. At this point, we've been exposed to the idea of the `execution stack`, and the `execution context`. We've also had some time to work with `functions` and `objects`. We will apply those concepts in helping us understand the idea of `closures`. 
+Greetings curious learner! Welcome to a notorious topic in Javascript, understanding `closures`. Closure is a Javascript topic that's absolutely vital to understand when advancing with Javascript concepts. However, it can be notoriously difficult to understand, but you're ready 💪. At this point, we've been exposed to the idea of the `execution stack`, and the `execution context`. We've also had some time to work with `functions` and `objects`. We will apply those concepts in helping us understand the idea of `closures`. 
 
 A `closure` is a function that references variables in the outer scope from its inner scope. The `closure` preserves the outer scope inside its inner scope. Whoa, what does that even mean? Furthermore, how does that even help me? In plain English, a `closure` is simply a function defined another function. But the real power is the fact that the inner function remembers the environment in which it was created meaning it has access to the outer function's variables and parameter when it was created.
 
