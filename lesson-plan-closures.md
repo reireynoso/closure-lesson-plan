@@ -2,7 +2,7 @@
 
 ## Introduction 👋🏼
 
-Greetings curious learner! Welcome to a notorious topic in Javascript, understanding `closures`. Closures is a Javascript topic that's absolutely vital to understand when advancing with Javascript concepts. However, it can be notoriously difficult to understand, but you're ready 💪. At this point, we've been exposed to the idea of the `execution stack`, and the `execution context`. We will apply those concepts in helping us understand the idea of `closures`. 
+Greetings curious learner! Welcome to a notorious topic in Javascript, understanding `closures`. Closures is a Javascript topic that's absolutely vital to understand when advancing with Javascript concepts. However, it can be notoriously difficult to understand, but you're ready 💪. At this point, we've been exposed to the idea of the `execution stack`, and the `execution context`. We've also had some time to work with `functions` and `objects`. We will apply those concepts in helping us understand the idea of `closures`. 
 
 A `closure` is a function that references variables in the outer scope from its inner scope. The `closure` preserves the outer scope inside its inner scope. Whoa, what does that even mean? Furthermore, how does that even help me? In plain English, a `closure` is simply a function defined another function. But the real power is the fact that the inner function remembers the environment in which it was created meaning it has access to the outer function's variables and parameter when it was created.
 
@@ -77,7 +77,20 @@ In this code, we have a global variable, `firstNumber`. We have a similar proces
 
 ### Closures under the Hood
 
-Now that we've covered `lexical scope` and `scope chain`, let's go back to our first example with `greet()` function. When we call `sayHi('Person')`, we're not actually passing in the parameter for `whattosay`. So how would it know that the value is `Hello`?
+Now that we've covered `lexical scope` and `scope chain`, let's go back to our first example with `greet()` function. 
+
+```js
+function greet(whattosay){
+    return function (name){
+        console.log(whattosay + ' ' + name)
+    }
+}
+
+const sayHi = greet("Hello")
+sayHi('Person') 
+```
+
+When we call `sayHi('Person')`, we're not actually passing in the parameter for `whattosay`. So how would it know that the value is `Hello`?
 
 Let's visually examine what's happening in terms of the `execution stack`, `execution context`, and `lexical scoping`. When this code starts, we have our `Global Execution Context`. When we hit the line, `var sayHi = greet("Hello")`, it invokes the `greet()` function and new `execution context` is created and added to the `execution stack`. The variable passed to it, `whattosay`, is sitting in its variable environment. It returns a new function object. And that's it. The `greet execution context` is then popped off the stack. 
 
@@ -95,129 +108,5 @@ Think about this for a second...
 
 ![Closure End](/sample-images/closure-end.png)
 
-### Function Factories
-
-Now that we have some background on how `closures` work, let's examine how `closures` can be used to our advantage.
-
-### Closures and Callbacks
 
 
-- Create a function with setter and getter methods bank account function
-- function factories
-- setInterval to increase/decrease stocks
-
-# Exercises
-Let's implement the concept of closure into creating functions that emulate real-world situations.
-
-## Bank Account Emulator 🏦
-We're tired of using Bank apps to keep track of our 💵💵. We want to create a function, `bankAccount()` that does that job for us! Inside of the `bankAccount()` function, we want the following:
-- knows the amount of money, `balance`, we have,
-- has an inner function, `changeBy()`, that changes that value of that `balance`,
-- returns an object with keys, `deposit`, `withdraw`, and `checkBalance`. The keys `deposit` and `withdraw` will both have a value pointing to an `anonymous function` that takes in a parameter, which will be an `integer`, and that function calls `changeBy()` passing in the parameter it received indicating how much to change the `balance` by. The `checkBalance` will also have a value pointing to an `anonymous function` that will return our `balance`.
-
-Sample (I should be able to make the following calls to your function)
-```js
-console.log(bankAccount.checkBalance()) // 4000
-console.log(bankAccount.deposit(400)) 
-console.log(bankAccount.withdraw(3000))
-console.log(bankAccount.checBalance()) // 1400 
-```
-
-
-## Profile Creator 📱
-Tired of using social media apps, but still would like a way of knowing people's basic info? Let's create the next best thing! Create a function, `createProfile()` that will take in three parameters: `name`, in `string`, `bio`, also in `string`, and `age`, in `integer`. When we invoke `createProfile()`, we want the following:
-- a variable, `information` that has the key value pairs of the parameters passed in,
-- the function returns an object with keys, `changeName`, `changeBio`, `changeAge`, and `viewProfile`, with all of their values pointing to an `anonymous function`. 
-- With the `anonymous functions` of `changeName`, `changeBio`, and `changeAge`, they are each taking a parameter when invoked and we are changing the respective property values on the `information` object.
-- The `anonymous function` of `viewProfile` will not need a parameter but it will return the `information` object when invoked.
-
-Sample (I should be able to make the following calls to your function)
-```js
-const myProfile = createProfile("John", "My name is John", 42)
-console.log(myProfile.changeName("Jonathan"))
-console.log(myProfile.changeBio("I'm now Jonathan"))
-console.log(myProfile.changeAge(14))
-console.log(myProfile.viewProfile()) // {name: "Jonathan", bio: "I'm now Jonathan", age: 14}
-```
-
-```js
-function createProfile(name, bio, age){
-    const information = {
-        name,
-        bio,
-        age
-    }
-
-    return {
-        changeName: function(newName){
-            information.name = newName
-        },
-        changeBio: function(newBio){
-            information.bio = newBio
-        },
-        changeAge:function(newAge){
-            information.age = newAge
-        },
-        viewProfile:function(){
-            return information
-        }
-
-    }
-}
-
-const myProfile = createProfile("John", "My name is John", 42)
-myProfile.changeName("Jonathan")
-myProfile.changeBio("I'm now Jonathan")
-myProfile.changeAge(14)
-myProfile.viewProfile()
-```
-
-
-
-## Reminder Function
-Tend to forget things frequently? Don't fret! We will design a function, `remindMe()` that will remind us to do certain things! As part of this function, we will implement `setTimeout()` which will take two arguments, the first being the `callback` function and the second, the time for it to execute the `callback` function. Ex. `setTimeout(function(){console.log('hey')}, 3000)`
-
-Quick explanation of what a `callback` is: a function you give to another function, to be run when the other function is finished. The function you call, invoke, 'calls back' by calling the function you gave it when it finishes.
-
-When `remindMe()` is invoked, a two parameters will be expected: `remindMe(reminder, time)`. The first argument will be `reminder`, a `string` message of what the reminder is and the second will be the time, an `integer` of when to remind us. Within the function itself,
-- has an inner function, `reminderFunction()` that returns `Reminder: Reminder that you passed in a parameter`
-- has a `setTimeout()` that takes in the `anonymous callback function` and the `time` parameters.
-- Inside of the `anonymous callback function`, it will invoke `reminderFunction`. NOTE: there's a way to make this shorter. It's okay if you're not aware. You can stick to this approach.
-
-```js
-
-function remindMe(reminder, time){
-    function reminderFunction(){
-        return "Reminder: " + reminder
-    }
-    setTimeout(function(){
-        reminderFunction()
-    }, time)
-}
-
-remindMe("Food", 4000)
-```
-
-Sample
-```js
-console.log(remindMe("Eat", 3000)) // After 3 seconds, logs out: Reminder: Eat.
-```
-
-## ToDo List Tracker 🔖
-Have a lot of things to do and too lazy to keep track of them all? No worries! We're going to make a function `todoTracker()` that will keep track of all of our todos.
-
-```js
-const todos = [];
-
-function todoTracker(){
-    return {
-        addTodo: function(){
-            todos.push()
-        },
-        removeTodo: function(){
-            todos.shift()
-        }
-
-    }
-}
-```
